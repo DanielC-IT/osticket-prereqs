@@ -6,7 +6,7 @@
 
 ## Overview
 
-This guide explains how to install and configure **osTicket** on a Windows virtual machine using:
+This guide explains how to install and configure **osTicket** on a Windows machine using:
 
 * Windows
 * IIS (Internet Information Services)
@@ -23,7 +23,7 @@ By the end of this guide, you will have a working osTicket help desk to create a
 
 # 1. Installation Files
 
-Before beginning, make sure the following installation files are available on your virtual machine.
+Before beginning, make sure the following installation files are available on your machine.
 
 You should have:
 
