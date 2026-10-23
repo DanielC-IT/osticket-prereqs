@@ -1,622 +1,269 @@
+
 <p align="center">
-<img src="https://i.imgur.com/Clzj7Xs.png" alt="osTicket logo"/>
+  <img src="https://i.imgur.com/Clzj7Xs.png" alt="osTicket logo" />
 </p>
 
-# osTicket Installation
+# osTicket Installation and Configuration on Windows 11
 
-## Environments and Technologies Used
+## Project Overview
 
-* Windows 11
-* IIS (Internet Information Services)
-* PHP
-* MySQL
-* PHP Manager for IIS
-* IIS URL Rewrite Module
-* HeidiSQL
-* osTicket
+This project demonstrates the installation and configuration of **osTicket**, an open-source help desk ticketing system, on a Windows 11 machine using IIS, PHP, and MySQL. The demonstration covers preparing the Windows environment, configuring the web server and database, resolving PHP extension requirements, and completing the osTicket setup.
 
----
+## Environment and Technologies Used
 
-# 1. Installation Files
+- **Operating system:** Windows 11
+- **Web server:** Internet Information Services (IIS)
+- **Scripting runtime:** PHP 7.3.8 Non-Thread Safe (NTS), 32-bit
+- **Database server:** MySQL 5.5.62
+- **PHP/IIS management:** PHP Manager for IIS
+- **IIS component:** URL Rewrite Module
+- **Database client:** HeidiSQL
+- **Help desk application:** osTicket 1.15.8
 
-Before you begin, make sure the following installation files are on your machine.
+## Installation Files
 
-You should have:
+The following installation files were used:
 
-* `osTicket-v1.15.8.zip`
-* `php-7.3.8-nts-Win32-VC15-x86.zip`
-* `PHPManagerForIIS_V1.5.0.msi`
-* `rewrite_amd64_en-US.msi`
-* `VC_redist.x86.exe`
-* `mysql-5.5.62-win32.msi`
-* `HeidiSQL` installer
+- `osTicket-v1.15.8.zip`
+- `php-7.3.8-nts-Win32-VC15-x86.zip`
+- `PHPManagerForIIS_V1.5.0.msi`
+- `rewrite_amd64_en-US.msi`
+- `VC_redist.x86.exe`
+- `mysql-5.5.62-win32.msi`
+- HeidiSQL installer
 
-All the files needed are available [here](https://tinyurl.com/4p3h29sm)
-> **Note:** The versions above are the versions used for this installation project.
+The files used for this lab are collected here: [Installation files](https://tinyurl.com/4p3h29sm).
 
----
+## Demonstration
 
-# 2. Extract the Installation Files
+### 1. Prepare the Installation Files
 
-1. Download the provided installation files.
-2. Locate the downloaded ZIP files.
-3. Right-click the ZIP file and select **Extract All**.
-4. Extract the files to an easy-to-access location.
+1. Download the installation files listed above.
+2. Open the folder containing the downloaded files.
+3. For each ZIP archive, right-click the file and select **Extract All**.
+4. Extract the files to an easy-to-access working folder, such as `C:\Desktop\osTicket-Installation-Files`.
 
-For example:
+<img width="1124" alt="Installation files extracted to a working folder" src="https://github.com/user-attachments/assets/48ea219e-d6a3-4bfe-93b0-5dd6213c67fe" />
 
-C:\Desktop\osTicket-Installation-Files
-<img width="1124" height="634" alt="1" src="https://github.com/user-attachments/assets/48ea219e-d6a3-4bfe-93b0-5dd6213c67fe" />
+### 2. Enable IIS and CGI
 
----
-
-# 3. Enable IIS and CGI
-
-IIS (Internet Information Services) will be used to host the osTicket website.
-
-### Open Windows Features
+IIS hosts the osTicket website. The CGI feature allows IIS to run PHP through FastCGI.
 
 1. Open **Control Panel**.
-2. Select **Programs and Features**.
-3. Click **Turn Windows features on or off**.
-4. Find: **Internet Information Services**
+2. Select **Programs and Features**, then choose **Turn Windows features on or off**.
+3. Expand **Internet Information Services**.
+4. Expand **World Wide Web Services → Application Development Features**.
+5. Select **CGI**, then click **OK**.
+6. Allow Windows to install the selected components.
 
-<img width="1131" height="633" alt="2" src="https://github.com/user-attachments/assets/a9c04ff6-c123-48f1-a6fd-575b0c00491e" />
+<img width="1131" alt="Windows Features showing Internet Information Services" src="https://github.com/user-attachments/assets/a9c04ff6-c123-48f1-a6fd-575b0c00491e" />
 
-5. Expand and check the boxes for the following :
+<img width="1309" alt="CGI selected under IIS Application Development Features" src="https://github.com/user-attachments/assets/6d681d99-3c82-4042-9369-027d7cfd1bae" />
 
-Internet Information ▶️ Services World Wide Web Service ▶️ Application Development Features
+### 3. Install PHP Manager for IIS
 
-6. Check the box next to **CGI**
+PHP Manager adds PHP configuration options to IIS Manager.
 
-7. Click **OK**.
+1. Open the installation-files folder.
+2. Double-click `PHPManagerForIIS_V1.5.0.msi`.
+3. Follow the setup wizard and accept the options used for this lab.
 
-<img width="1309" height="824" alt="3" src="https://github.com/user-attachments/assets/6d681d99-3c82-4042-9369-027d7cfd1bae" />
+<img width="1122" alt="PHP Manager for IIS installer" src="https://github.com/user-attachments/assets/af4ec364-c22a-42ac-812e-2bc5451d12d6" />
 
-Windows will install the required IIS components. This may take several minutes.
+### 4. Install the IIS URL Rewrite Module
 
----
+The URL Rewrite Module allows IIS to process URL rewriting rules used by web applications.
 
-# 4. Install PHP Manager for IIS
+1. Open the installation-files folder.
+2. Double-click `rewrite_amd64_en-US.msi`.
+3. Follow the setup wizard to complete the installation.
 
-Navigate to your installation files and run:
+<img width="1125" alt="IIS URL Rewrite Module installer" src="https://github.com/user-attachments/assets/427ceadb-ba98-4bfe-ada8-3a364e60faec" />
 
+### 5. Install PHP
 
-PHPManagerForIIS_V1.5.0.msi
+1. Open File Explorer and navigate to `C:\`.
+2. Create a folder named `PHP`, so the full folder path is `C:\PHP`.
+3. Locate `php-7.3.8-nts-Win32-VC15-x86.zip` in the installation-files folder.
+4. Extract the archive contents into `C:\PHP`.
+5. Confirm that `C:\PHP\php-cgi.exe` exists.
 
-<img width="1122" height="633" alt="4" src="https://github.com/user-attachments/assets/af4ec364-c22a-42ac-812e-2bc5451d12d6" />
+<img width="1122" alt="PHP folder created on the C drive" src="https://github.com/user-attachments/assets/a8935ad4-621a-4e56-9512-13c41229f6dd" />
 
+<!-- Add a screenshot here showing the extracted PHP files in C:\PHP and php-cgi.exe visible. -->
 
-Follow the installation wizard and accept the default options.
+### 6. Install the Visual C++ Redistributable
 
-PHP Manager lets IIS manage and configure PHP.
+PHP requires the matching Microsoft Visual C++ runtime.
 
----
+1. Open the installation-files folder.
+2. Double-click `VC_redist.x86.exe`.
+3. Follow the installer prompts to complete the installation.
 
-# 5. Install the IIS URL Rewrite Module
+<!-- Add a screenshot here showing the Visual C++ Redistributable installer or successful installation. -->
 
-Run:
+### 7. Install MySQL
 
+1. Open the installation-files folder.
+2. Double-click `mysql-5.5.62-win32.msi`.
+3. Select **Typical** as the setup type and continue through the wizard.
+4. When installation finishes, make sure **Launch the MySQL Instance Configuration Wizard** is selected.
+5. Click **Finish** to open the configuration wizard.
 
-rewrite_amd64_en-US.msi
+<img width="493" alt="MySQL setup type selection" src="https://github.com/user-attachments/assets/6ff8e24b-2838-4a7c-9aac-c2fc5f70898e" />
 
-<img width="1125" height="632" alt="5" src="https://github.com/user-attachments/assets/427ceadb-ba98-4bfe-ada8-3a364e60faec" />
+<img width="492" alt="MySQL option to launch the instance configuration wizard" src="https://github.com/user-attachments/assets/639f5169-ed81-4026-ae2d-5feaff220df7" />
 
+### 8. Configure MySQL
 
-Follow the installation wizard and accept the default settings.
+1. In the MySQL Server Instance Configuration Wizard, select **Standard Configuration**.
+2. Continue through the wizard.
+3. When prompted, set a MySQL root password and store it securely. You will need it when connecting to MySQL and configuring osTicket.
+4. Click **Execute** and wait for the configuration tasks to finish.
+5. Click **Finish**.
 
-The URL Rewrite module allows IIS to process URL rewriting rules used by web applications.
+<img width="499" alt="MySQL standard configuration selection" src="https://github.com/user-attachments/assets/829ed70b-8d68-4406-a13d-a94f3b934dee" />
 
----
+<img width="500" alt="MySQL root password configuration" src="https://github.com/user-attachments/assets/49a948cc-4100-4427-8261-dcc891fc0a0d" />
 
-# 6. Install PHP
+<!-- Add a screenshot here showing the MySQL configuration tasks completing successfully. -->
 
-### Create the PHP folder
+### 9. Open IIS Manager
 
-Open:
+1. Open the Windows **Start** menu.
+2. Search for **IIS**.
+3. Open **Internet Information Services (IIS) Manager**. Use an administrator account if prompted.
 
+<img width="834" alt="Internet Information Services (IIS) Manager open" src="https://github.com/user-attachments/assets/aa866fc3-4e38-4b4d-bee3-9bb1a77526fb" />
 
-C:\
+### 10. Register PHP with IIS
 
+1. In IIS Manager, select the server in the left-hand **Connections** pane.
+2. Open **PHP Manager**.
+3. Select **Register new PHP version**.
+4. Click the browse (`...`) button and navigate to `C:\PHP`.
+5. Select `php-cgi.exe` and click **OK** to register PHP.
 
-Create a new folder named:
+<!-- Add a screenshot here showing PHP Manager with the registered PHP version. -->
 
+### 11. Restart IIS
 
-PHP
+1. In IIS Manager, select the server in the **Connections** pane.
+2. Under **Manage Server**, click **Restart**.
+3. If **Restart** is unavailable, right-click the server and select **Stop**, then right-click it again and select **Start**.
 
+### 12. Place osTicket in the IIS Web Root
 
-Your folder should look like:
+1. Locate `osTicket-v1.15.8.zip` in the installation-files folder.
+2. Extract the ZIP archive.
+3. Open the extracted folder and locate the `upload` directory.
+4. Copy the `upload` directory to `C:\inetpub\wwwroot`.
+5. Rename the copied folder from `upload` to `osTicket`.
+6. Confirm that the application files are located at `C:\inetpub\wwwroot\osTicket`.
 
+<img width="1122" alt="osTicket application folder in the IIS web root" src="https://github.com/user-attachments/assets/7a4252b3-d482-4cb1-9e33-32b70425f250" />
 
-C:\PHP
+### 13. Launch the osTicket Installer
 
+This step configures the IIS site path and opens osTicket for the first time. The installer checks the PHP environment and identifies any required extensions that are not enabled.
 
-<img width="1122" height="632" alt="6" src="https://github.com/user-attachments/assets/a8935ad4-621a-4e56-9512-13c41229f6dd" />
+1. Open **IIS Manager**.
+2. In the **Connections** pane, expand **Sites → Default Web Site** and select **osTicket**. If the `osTicket` application does not appear, confirm that the folder was copied to `C:\inetpub\wwwroot\osTicket`.
+3. In the **Actions** pane, select **Browse *.80 (http)** to open the application in a browser.
+4. Review the osTicket setup page and note any missing PHP extensions displayed by the installer.
 
+<img width="1208" alt="IIS Manager showing the osTicket application and Browse action" src="https://github.com/user-attachments/assets/984c98a0-5677-4179-abc6-5adab1a5f24c" />
 
-### Extract PHP
+<!-- Add a screenshot here showing the actual osTicket installer in the browser, including the missing PHP extensions before they are enabled. This screenshot is important evidence for this step. -->
 
-Locate in the installation files:
+### 14. Enable the PHP Extensions Required by osTicket
 
+Use the missing-extension list shown by the installer in Step 13 to identify what needs to be enabled.
 
-php-7.3.8-nts-Win32-VC15-x86.zip
+1. Return to IIS Manager and select **Sites → Default Web Site → osTicket**.
+2. Open **PHP Manager**.
+3. Select **Enable or disable an extension**.
+4. Enable the extensions required by this lab: `php_imap.dll`, `php_intl.dll`, and `php_opcache.dll`.
+5. Return to the browser and refresh the osTicket installer page. Confirm that the missing-extension warnings have cleared.
 
+<img width="1210" alt="PHP Manager extension configuration" src="https://github.com/user-attachments/assets/56eb12a9-4a2d-4048-8053-6beb722b5b99" />
 
-Extract its contents into:
+<img width="1211" alt="PHP extensions enabled in PHP Manager" src="https://github.com/user-attachments/assets/57dca1f5-3a9d-4ca4-b1eb-b4055afb62cf" />
 
+<!-- Add a screenshot here showing the refreshed osTicket installer after the extension warnings have cleared. -->
 
-C:\PHP
+### 15. Configure the osTicket Configuration File
 
+osTicket uses a configuration file to store application settings. Rename the sample file before continuing with the installer.
 
-After extraction, the PHP executable should be located at:
+1. In File Explorer, navigate to `C:\inetpub\wwwroot\osTicket\include`.
+2. Find `ost-sampleconfig.php`.
+3. Rename it to `ost-config.php`.
+4. Confirm that the full path is `C:\inetpub\wwwroot\osTicket\include\ost-config.php`.
 
+<img width="1123" alt="osTicket sample configuration file in the include folder" src="https://github.com/user-attachments/assets/a46f5c74-426e-42eb-bd60-579616fe1009" />
 
-C:\PHP\php-cgi.exe
+#### Set Configuration File Permissions
 
+1. Right-click `ost-config.php` and select **Properties**.
+2. Open the **Security** tab and select **Advanced**.
+3. Configure the permissions required for the installer to write to the configuration file.
+4. Use the minimum permissions needed for the lab and restore tighter permissions after installation if appropriate.
 
----
+<img width="766" alt="Advanced security settings for ost-config.php" src="https://github.com/user-attachments/assets/8c69b0d2-9539-4df1-859f-1c7943a2bf06" />
 
-# 7. Install Visual C++ Redistributable
+> **Security note:** Avoid granting broad **Full Control** permissions to `Everyone` on a production server. Use least-privilege permissions appropriate for the IIS application identity.
 
-From the installation files, run:
+### 16. Install HeidiSQL and Create the osTicket Database
 
+osTicket needs a MySQL database to store tickets, users, configuration, and other application data.
 
-VC_redist.x86.exe
+1. Run the HeidiSQL installer from the installation-files folder.
+2. Complete the setup and select **Launch HeidiSQL** if that option appears.
 
+<img width="601" alt="HeidiSQL installer launch option" src="https://github.com/user-attachments/assets/f232de7d-b29c-49f1-a080-fdd31ded6204" />
 
-Follow the installation wizard.
+#### Connect to MySQL
 
-This installs the Microsoft Visual C++ runtime required by PHP.
-
----
-
-# 8. Install MySQL
-
-Run:
-
-
-mysql-5.5.62-win32.msi
-
-
-### Installation settings
-
-When asked for the setup type, select:
-
-
-Typical
-
-<img width="493" height="384" alt="7" src="https://github.com/user-attachments/assets/6ff8e24b-2838-4a7c-9aac-c2fc5f70898e" />
-
-Continue through the installation.
-
-When installation finishes, make sure:
-
-
-Launch the MySQL Instance Configuration Wizard
-
-
-is checked.
-
-<img width="492" height="388" alt="8" src="https://github.com/user-attachments/assets/639f5169-ed81-4026-ae2d-5feaff220df7" />
-
-Click **Finish**.
-
----
-
-# 9. Configure MySQL
-
-The MySQL Server Instance Configuration Wizard will open.
-
-### Configuration Type
-
-Select:
-
-
-Standard Configuration
-
-<img width="499" height="379" alt="9" src="https://github.com/user-attachments/assets/829ed70b-8d68-4406-a13d-a94f3b934dee" />
-
-Continue through the wizard.
-
-### Create the Root Password
-
-When prompted for a MySQL root password, create a password that you will remember.
-
-<img width="500" height="384" alt="10" src="https://github.com/user-attachments/assets/49a948cc-4100-4427-8261-dcc891fc0a0d" />
-
-> **Important:** Keep this password secure. You will need it later when configuring the osTicket database.
-
-Click:
-
-
-Execute
-
-
-Wait for the configuration process to finish.
-
-Then click:
-
-
-Finish
-
-
----
-
-# 10. Open IIS Manager
-
-Open the Windows Start menu and search for:
-
-
-IIS
-
-
-Open:
-
-
-Internet Information Services (IIS) Manager
-
-
-Run IIS Manager as **Administrator**.
-
-<img width="834" height="468" alt="11" src="https://github.com/user-attachments/assets/aa866fc3-4e38-4b4d-bee3-9bb1a77526fb" />
-
----
-
-
-# 11. Register PHP with IIS
-
-Inside IIS Manager:
-
-1. Select the server in the left panel.
-2. Open:
-
-
-PHP Manager
-
-
-3. Select:
-
-
-Register new PHP version
-
-
-4. Click the `...` button.
-5. Navigate to:
-
-
-C:\PHP
-
-
-6. Select:
-
-
-php-cgi.exe
-
-
-7. Click **OK**.
-
-PHP is now registered with IIS.
-
----
-
-# 12. Restart IIS
-
-Restart the IIS server.
-
-In IIS Manager:
-
-1. Select the server.
-2. Click **Restart** under **Manage Server**.
-
-You can also right-click the server and select:
-
-
-Stop
-
-
-followed by:
-
-
-Start
-
-
----
-
-# 13. Install osTicket
-
-Locate from the Installation files:
-
-
-osTicket-v1.15.8.zip
-
-
-Extract the ZIP file.
-
-Inside the extracted folder you will find:
-
-
-upload
-
-
-Copy the `upload` folder to:
-
-
-C:\inetpub\wwwroot
-
-
-Rename the folder:
-
-
-upload
-
-
-to:
-
-
-osTicket
-
-
-Your osTicket installation should now be located at:
-
-
-C:\inetpub\wwwroot\osTicket
-
-
-<img width="1122" height="631" alt="12" src="https://github.com/user-attachments/assets/7a4252b3-d482-4cb1-9e33-32b70425f250" />
-
----
-
-# 14. Configure PHP Extensions
-
-Restart IIS again.
-
-In IIS Manager, navigate to:
-
-
-Sites
-└── Default Web Site
-    └── osTicket
-
-
-Select the `osTicket` site.
-
-Click:
-
-
-Browse *.80 (http)
-
-
-<img width="1208" height="700" alt="13" src="https://github.com/user-attachments/assets/984c98a0-5677-4179-abc6-5adab1a5f24c" />
-
-This should open osTicket in your web browser.
-
-At this point, the osTicket installer may report that some PHP extensions are missing.
-
-### Enable the Required Extensions
-
-Return to IIS Manager.
-
-Navigate to:
-
-
-Sites
-└── Default Web Site
-    └── osTicket
-
-
-Double-click:
-
-
-PHP Manager
-
-
-Select:
-
-
-Enable or disable an extension
-
-
-<img width="1210" height="698" alt="14" src="https://github.com/user-attachments/assets/56eb12a9-4a2d-4048-8053-6beb722b5b99" />
-
-Enable the following extensions:
-
-
-php_imap.dll
-php_intl.dll
-php_opcache.dll
-
-
-<img width="1211" height="694" alt="15" src="https://github.com/user-attachments/assets/57dca1f5-3a9d-4ca4-b1eb-b4055afb62cf" />
-
-After enabling the extensions, refresh the osTicket installation page in your browser.
-
-The required extensions should now be enabled.
-
----
-
-# 15. Configure the osTicket Configuration File
-
-osTicket provides a sample configuration file that must be renamed before installation.
-
-Navigate to:
-
-
-C:\inetpub\wwwroot\osTicket\include
-
-
-Find:
-
-
-ost-sampleconfig.php
-
-
-Rename it to:
-
-
-ost-config.php
-
-
-The final path should be:
-
-
-C:\inetpub\wwwroot\osTicket\include\ost-config.php
-
-
-<img width="1123" height="631" alt="16" src="https://github.com/user-attachments/assets/a46f5c74-426e-42eb-bd60-579616fe1009" />
-
----
-
-## Configure File Permissions
-
-The osTicket installer needs permission to modify the configuration file.
-
-Right-click:
-
-
-ost-config.php
-
-
-Select:
-
-
-Properties → Security → Advanced
-
-
-Disable inheritance and remove the inherited permissions.
-
-Add a new permission for:
-
-
-Everyone
-
-
-<img width="766" height="519" alt="17" src="https://github.com/user-attachments/assets/8c69b0d2-9539-4df1-859f-1c7943a2bf06" />
-
-Give it the required permissions for the installation.
-
-> **Security Note:** Granting broad permissions such as **Full Control** to `Everyone` is useful for a lab environment, but it is **not recommended for a production server**. Production systems should use the minimum permissions necessary.
-
----
-
-# 16. Create the osTicket Database
-
-osTicket requires a MySQL database to store tickets, users, settings, and other application data.
-
-Install:
-
-
-HeidiSQL
-
-
-from the installation files.
-
-During installation, select:
-
-
-Launch HeidiSQL
-
-<img width="601" height="464" alt="18" src="https://github.com/user-attachments/assets/f232de7d-b29c-49f1-a080-fdd31ded6204" />
-
-when prompted.
-
----
-
-## Connect to MySQL
-
-When HeidiSQL opens:
-
-1. Create a new session.
-2. Enter the MySQL credentials created during the MySQL installation.
+1. In HeidiSQL, create a new session.
+2. Enter the connection details for the MySQL server configured in Step 8.
 3. Enter the appropriate username and password.
-4. Click **Open**.
+4. Click **Open** to connect.
 
-<img width="684" height="482" alt="19" src="https://github.com/user-attachments/assets/c3a887d9-9a20-469f-a2e1-bfea35082853" />
+<img width="684" alt="HeidiSQL session connection settings" src="https://github.com/user-attachments/assets/c3a887d9-9a20-469f-a2e1-bfea35082853" />
 
----
+#### Create the Database
 
-## Create the Database
-
-After connecting:
-
-1. Right-click the MySQL server/session.
-2. Select:
-
-
-Create new → Database
-
-
-3. Name the database:
-
-
-osTicket
-
-
+1. In HeidiSQL, right-click the connected MySQL server or session.
+2. Select **Create new → Database**.
+3. Enter `osTicket` as the database name.
 4. Click **OK**.
+5. Confirm that `osTicket` appears in the database list.
 
-Your osTicket database has now been created.
+<!-- Add a screenshot here showing the osTicket database visible in HeidiSQL's database tree. This is the SQL/database evidence missing from the original project. -->
 
----
+### 17. Complete the osTicket Setup
 
-# 17. Complete the osTicket Installation
+1. Return to the osTicket installer in your browser.
+2. Enter the help desk name and default email address.
+3. Create the administrator account.
+4. In the database section, enter the MySQL connection details and the database name created in Step 16.
+5. Review the information and click **Install Now**.
 
-Return to the osTicket installation page in your browser.
+For this lab, the database name is `osTicket`. Enter the database username and password that match your MySQL configuration.
 
-The installer will ask for information about:
+<img width="823" alt="osTicket setup form" src="https://github.com/user-attachments/assets/14814470-9cef-47e5-8693-d86d2f897ed7" />
 
-* Helpdesk name
-* Default email
-* Administrator account
-* MySQL database
-* Database username
-* Database password
-* Database name
+<!-- Add a screenshot here showing the installer submitting the configuration or reporting successful setup. Hide email addresses, passwords, and other sensitive values. -->
 
-For the database section, enter the information you configured in MySQL and HeidiSQL.
+### 18. Verify the Installation
 
-For example:
+After the installer reports success, open the application and verify that both the help desk and staff login pages load.
 
+- **Help desk:** `http://localhost/osTicket/`
+- **Staff/admin login:** `http://localhost/osTicket/scp/login.php`
 
-Database Name: osTicket
-Database User: root
-Database Password: <your MySQL password>
+<img width="823" alt="osTicket installation success screen" src="https://github.com/user-attachments/assets/0ba95e1d-9a0d-4eb2-a2b8-c69157320e07" />
 
-
-<img width="823" height="1221" alt="20" src="https://github.com/user-attachments/assets/14814470-9cef-47e5-8693-d86d2f897ed7" />
-
-
-Review the installation settings.
-
-When everything looks correct, click:
-
-
-Install Now
-
-
----
-
-# 18. Installation Complete
-
-If the installation was successful, osTicket should now be installed and running on your IIS server.
-
-<img width="823" height="638" alt="21" src="https://github.com/user-attachments/assets/0ba95e1d-9a0d-4eb2-a2b8-c69157320e07" />
-
-You can use the following URLs to access your installation.
-
-### osTicket Helpdesk
-
-
-http://localhost/osTicket/
-
-
-This is where users can create support tickets.
-
-### osTicket Staff/Admin Panel
-
-
-http://localhost/osTicket/scp/login.php
-
-
-This is where IT staff can log in and manage tickets.
-
----
+<!-- Add a screenshot here showing the help desk landing page and, if possible, a separate screenshot of the staff/admin login page. -->
 
