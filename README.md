@@ -90,7 +90,8 @@ The URL Rewrite Module allows IIS to process URL rewriting rules used by web app
 
 <img width="1122" alt="PHP folder created on the C drive" src="https://github.com/user-attachments/assets/a8935ad4-621a-4e56-9512-13c41229f6dd" />
 
-<!-- Add a screenshot here showing the extracted PHP files in C:\PHP and php-cgi.exe visible. -->
+<img width="1126" height="633" alt="image" src="https://github.com/user-attachments/assets/ac784da8-8e30-4413-afdb-0358c91c3d31" />
+
 
 ### 6. Install the Visual C++ Redistributable
 
@@ -100,7 +101,11 @@ PHP requires the matching Microsoft Visual C++ runtime.
 2. Double-click `VC_redist.x86.exe`.
 3. Follow the installer prompts to complete the installation.
 
-<!-- Add a screenshot here showing the Visual C++ Redistributable installer or successful installation. -->
+<img width="1122" height="631" alt="image" src="https://github.com/user-attachments/assets/7ae6905b-a4c6-4b57-8200-9ece87489ddb" />
+
+<img width="481" height="298" alt="image" src="https://github.com/user-attachments/assets/67f7e278-33d9-4b50-b126-3f67c630f9ae" />
+
+
 
 ### 7. Install MySQL
 
@@ -126,13 +131,16 @@ PHP requires the matching Microsoft Visual C++ runtime.
 
 <img width="500" alt="MySQL root password configuration" src="https://github.com/user-attachments/assets/49a948cc-4100-4427-8261-dcc891fc0a0d" />
 
-<!-- Add a screenshot here showing the MySQL configuration tasks completing successfully. -->
+<img width="500" height="381" alt="image" src="https://github.com/user-attachments/assets/af7d382d-b8fa-45ed-ae6e-16146e3a5aa1" />
+
+<img width="500" height="381" alt="image" src="https://github.com/user-attachments/assets/aeafed01-802f-4ae6-b2ab-e26220a3cedf" />
+
 
 ### 9. Open IIS Manager
 
 1. Open the Windows **Start** menu.
 2. Search for **IIS**.
-3. Open **Internet Information Services (IIS) Manager**. Use an administrator account if prompted.
+3. Open **Internet Information Services (IIS) Manager**. Select **Run as administrator**.
 
 <img width="834" alt="Internet Information Services (IIS) Manager open" src="https://github.com/user-attachments/assets/aa866fc3-4e38-4b4d-bee3-9bb1a77526fb" />
 
@@ -144,13 +152,21 @@ PHP requires the matching Microsoft Visual C++ runtime.
 4. Click the browse (`...`) button and navigate to `C:\PHP`.
 5. Select `php-cgi.exe` and click **OK** to register PHP.
 
-<!-- Add a screenshot here showing PHP Manager with the registered PHP version. -->
+<img width="977" height="811" alt="image" src="https://github.com/user-attachments/assets/c7ec5b0b-1aad-49c5-a2ea-a8290e04c9ea" />
+
+<img width="715" height="437" alt="image" src="https://github.com/user-attachments/assets/a6b16df6-9b9f-4cb8-9250-b7cab872478b" />
+
+<img width="1186" height="713" alt="image" src="https://github.com/user-attachments/assets/5b56c4e6-a48c-4adf-9112-703f4dcb762b" />
+
 
 ### 11. Restart IIS
 
 1. In IIS Manager, select the server in the **Connections** pane.
 2. Under **Manage Server**, click **Restart**.
 3. If **Restart** is unavailable, right-click the server and select **Stop**, then right-click it again and select **Start**.
+
+<img width="966" height="343" alt="image" src="https://github.com/user-attachments/assets/8172fd02-45b5-4bd6-bdb6-eb6dc336e209" />
+
 
 ### 12. Place osTicket in the IIS Web Root
 
@@ -163,18 +179,22 @@ PHP requires the matching Microsoft Visual C++ runtime.
 
 <img width="1122" alt="osTicket application folder in the IIS web root" src="https://github.com/user-attachments/assets/7a4252b3-d482-4cb1-9e33-32b70425f250" />
 
+<img width="1125" height="634" alt="image" src="https://github.com/user-attachments/assets/96846480-c04b-4830-b01a-fccd4c4d3c05" />
+
+
 ### 13. Launch the osTicket Installer
 
 This step configures the IIS site path and opens osTicket for the first time. The installer checks the PHP environment and identifies any required extensions that are not enabled.
 
 1. Open **IIS Manager**.
-2. In the **Connections** pane, expand **Sites → Default Web Site** and select **osTicket**. If the `osTicket` application does not appear, confirm that the folder was copied to `C:\inetpub\wwwroot\osTicket`.
+2. In the **Connections** pane, expand **Sites → Default Web Site** and select **osTicket**.
 3. In the **Actions** pane, select **Browse *.80 (http)** to open the application in a browser.
 4. Review the osTicket setup page and note any missing PHP extensions displayed by the installer.
 
 <img width="1208" alt="IIS Manager showing the osTicket application and Browse action" src="https://github.com/user-attachments/assets/984c98a0-5677-4179-abc6-5adab1a5f24c" />
 
-<!-- Add a screenshot here showing the actual osTicket installer in the browser, including the missing PHP extensions before they are enabled. This screenshot is important evidence for this step. -->
+<img width="824" height="766" alt="image" src="https://github.com/user-attachments/assets/c8bb3465-8edd-4382-8a7b-19f32aa42293" />
+
 
 ### 14. Enable the PHP Extensions Required by osTicket
 
@@ -190,7 +210,8 @@ Use the missing-extension list shown by the installer in Step 13 to identify wha
 
 <img width="1211" alt="PHP extensions enabled in PHP Manager" src="https://github.com/user-attachments/assets/57dca1f5-3a9d-4ca4-b1eb-b4055afb62cf" />
 
-<!-- Add a screenshot here showing the refreshed osTicket installer after the extension warnings have cleared. -->
+<img width="822" height="763" alt="image" src="https://github.com/user-attachments/assets/cb1a0e82-3b50-4808-b30b-6f5ff14491ec" />
+
 
 ### 15. Configure the osTicket Configuration File
 
@@ -212,7 +233,7 @@ osTicket uses a configuration file to store application settings. Rename the sam
 
 <img width="766" alt="Advanced security settings for ost-config.php" src="https://github.com/user-attachments/assets/8c69b0d2-9539-4df1-859f-1c7943a2bf06" />
 
-> **Security note:** Avoid granting broad **Full Control** permissions to `Everyone` on a production server. Use least-privilege permissions appropriate for the IIS application identity.
+
 
 ### 16. Install HeidiSQL and Create the osTicket Database
 
@@ -240,7 +261,14 @@ osTicket needs a MySQL database to store tickets, users, configuration, and othe
 4. Click **OK**.
 5. Confirm that `osTicket` appears in the database list.
 
-<!-- Add a screenshot here showing the osTicket database visible in HeidiSQL's database tree. This is the SQL/database evidence missing from the original project. -->
+<img width="936" height="593" alt="image" src="https://github.com/user-attachments/assets/f352d8c3-1e9e-4c8f-aea9-d77a02c12068" />
+
+<img width="319" height="259" alt="image" src="https://github.com/user-attachments/assets/06c12d22-bd9f-4403-97bc-3fa8f9c46de5" />
+
+<img width="936" height="593" alt="image" src="https://github.com/user-attachments/assets/5c7b0dc6-5cfc-4b8d-8edc-b326ad18afdf" />
+
+
+
 
 ### 17. Complete the osTicket Setup
 
