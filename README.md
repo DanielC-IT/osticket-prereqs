@@ -2,13 +2,11 @@
 <img src="https://i.imgur.com/Clzj7Xs.png" alt="osTicket logo"/>
 </p>
 
-# osTicket Installation Guide
+# osTicket Installation
 
-## Overview
+## Environments and Technologies Used
 
-This guide explains how to install and configure **osTicket** on a Windows machine using:
-
-* Windows
+* Windows 11
 * IIS (Internet Information Services)
 * PHP
 * MySQL
@@ -17,13 +15,11 @@ This guide explains how to install and configure **osTicket** on a Windows machi
 * HeidiSQL
 * osTicket
 
-By the end of this guide, you will have a working osTicket help desk to create and manage IT support tickets.
-
 ---
 
 # 1. Installation Files
 
-Before beginning, make sure the following installation files are available on your machine.
+Before you begin, make sure the following installation files are on your machine.
 
 You should have:
 
@@ -636,119 +632,4 @@ http://localhost/osTicket/scp/login.php
 This is where IT staff can log in and manage tickets.
 
 ---
-
-# 19. Installation Summary
-
-The installation process can be summarized as:
-
-```text
-Windows VM
-    ↓
-Install IIS + CGI
-    ↓
-Install PHP Manager
-    ↓
-Install URL Rewrite
-    ↓
-Install PHP
-    ↓
-Install Visual C++ Redistributable
-    ↓
-Install MySQL
-    ↓
-Configure MySQL
-    ↓
-Register PHP with IIS
-    ↓
-Install osTicket
-    ↓
-Enable PHP Extensions
-    ↓
-Configure ost-config.php
-    ↓
-Create MySQL Database
-    ↓
-Run osTicket Installer
-    ↓
-Test Helpdesk
-```
-
----
-
-# 20. Troubleshooting
-
-### osTicket says PHP is missing
-
-Verify that PHP is installed in:
-
-```text
-C:\PHP
-```
-
-and that IIS is registered to use:
-
-```text
-C:\PHP\php-cgi.exe
-```
-
-### PHP extensions are missing
-
-Open:
-
-```text
-IIS Manager → osTicket → PHP Manager
-```
-
-Select:
-
-```text
-Enable or disable an extension
-```
-
-Verify that the required extensions are enabled.
-
-### The osTicket website does not load
-
-Verify that:
-
-* IIS is running.
-* The osTicket folder exists at:
-
-```text
-C:\inetpub\wwwroot\osTicket
-```
-
-* The Default Web Site is running.
-* PHP is registered correctly.
-* IIS has been restarted after configuration changes.
-
-### Database connection fails
-
-Verify that:
-
-* MySQL is running.
-* The database is named:
-
-```text
-osTicket
-```
-
-* The database username is correct.
-* The database password is correct.
-* HeidiSQL can successfully connect to the MySQL server.
-
----
-
-# Conclusion
-
-Congratulations! You have successfully installed osTicket on a Windows VM using IIS, PHP, and MySQL.
-
-This environment can now be used as a basic **IT help desk/ticketing system** for practicing:
-
-* Ticket management
-* User support
-* Troubleshooting
-* Incident documentation
-* Help desk workflows
-* IT service management
 
